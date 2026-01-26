@@ -1,0 +1,40 @@
+[package]
+name = "idbuilder"
+version = "0.1.0"
+edition = "2021"
+description = "Rust SDK for IDBuilder distributed ID generation service"
+license = "Apache-2.0"
+repository = "https://github.com/idbuilder/idbuilder-rust"
+keywords = ["id", "distributed", "snowflake", "generator"]
+categories = ["api-bindings", "database"]
+rust-version = "1.70"
+
+[features]
+default = ["sync", "tls-rustls"]
+sync = ["dep:ureq"]
+async = ["dep:reqwest", "dep:tokio"]
+tls-native = ["ureq?/native-tls", "reqwest?/native-tls"]
+tls-rustls = ["ureq?/tls", "reqwest?/rustls-tls"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+
+# Sync HTTP client (default)
+ureq = { version = "2", optional = true, default-features = false }
+
+# Async HTTP client (optional)
+reqwest = { version = "0.12", optional = true, default-features = false, features = ["json"] }
+tokio = { version = "1", optional = true, features = ["time"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "deny"
+pedantic = "warn"
+nursery = "warn"
