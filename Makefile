@@ -1,4 +1,4 @@
-.PHONY: build check test lint fmt fmt-check clean
+.PHONY: build check test lint fmt fmt-check clean typos
 
 # Build release binary
 build:
@@ -24,8 +24,12 @@ fmt:
 fmt-check:
 	cargo fmt --check
 
-# Run all checks (format + lint + test)
-all: fmt-check lint test
+# Check for typos in source code
+typos:
+	typos
+
+# Run all checks (format + lint + test + typos)
+all: fmt-check lint typos test
 
 # Clean build artifacts
 clean:
